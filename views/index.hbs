@@ -1,0 +1,15 @@
+<h1>{{ title }}</h1>
+<p>Welcome to {{ title }}</p>
+
+<form action="/test" method="POST">
+    <select id="select_term" name="select_term">
+        <option id="spring" name="spring" value="{{spring}}">Spring</option>
+        <option id="fall" name="fall" value="{{fall}}">Fall</option>
+        <option id="winter" name="summer" value="{{summer}}">Summer</option>
+    </select>
+    <button type="submit">CLICK ME</button>
+</form>
+
+{{ spring }}
+{{ fall }}
+{{ summer }}
