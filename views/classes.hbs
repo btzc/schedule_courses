@@ -1,1 +1,7 @@
 {{ title }}
+<input list="course_list" name="courseList">
+<datalist id="course_list">
+    {{#each subjectList}}
+        <option value="{{ this }}">
+    {{/each}}
+</datalist>

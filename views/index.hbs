@@ -10,6 +10,18 @@
     <button type="submit">CLICK ME</button>
 </form>
 
-{{ spring }}
-{{ fall }}
-{{ summer }}
+<div class="row">
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-7">
+        <div id='calendar'></div>
+    </div>
+</div>
+
+{{ userlist }}
+<ul>
+    {{#each userlist}}
+        <li>{{ this.username }}</li>
+    {{/each}}
+</ul>
