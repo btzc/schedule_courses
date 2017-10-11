@@ -53,6 +53,7 @@ var parseCourses = function ( courseObject, term, subjectArray ) {
             subjectObject.abbrev = split[2];
             subjectObject.sectionNum = split[3];
         }
+        subjectObject.cid = subjectObject.abbrev.replace(/ /g,'');
         subjectObject.term = term;
         subjectArray.push(subjectObject);
     });
@@ -72,15 +73,6 @@ var uniqueSubject = function( subjectObject ) {
 /*********** CONTROLLER METHODS END **************/
 
 /*********** ROUTES START **************/
-/*router.get('/', function(req, res, next) {
-    var db = req.db;
-    var collection = db.get('usercollection');
-    collection.find({}, {}, function(e, docs) {
-        res.render('index', {
-            'userlist': docs
-        });
-    });
-});*/
 router.get('/', function(req, res, next) {
     var url = 'https://www.uvic.ca/BAN2P/bwckschd.p_disp_dyn_sched';
     var options = {
@@ -104,12 +96,30 @@ router.get('/', function(req, res, next) {
                     console.log('An error has occurred');
                 }
             }
-            res.render('index', { title: 'Express', 'summer': summer, 'spring': spring, 'fall': fall });
+            res.render('index', { title: 'Schedule Courses', 'summer': summer, 'spring': spring, 'fall': fall });
         }
     });
 });
 
-router.post('/test', function(req, res, next) {
+router.get('/classes/:term/all', function(req, res, next) {
+    var db = req.db;
+    var collection = db.get('courses');
+    collection.find({term: req.params.term}, {}, function(e, docs) {
+        if(e) res.status(404).json({"error":"No results"});
+        else res.json(docs);
+    });
+});
+
+router.get('/classes/:term/:cid', function(req, res, next) {
+    var db = req.db;
+    var collection = db.get('courses');
+    collection.find({term: req.params.term, cid: req.params.cid}, {}, function(e, docs) {
+        if(e) res.status(404).json({"error":"No results"});
+        else res.json(docs);
+    });
+});
+
+router.post('/classes/all', function(req, res, next) {
     var term = req.body.select_term;
     var url = 'https://www.uvic.ca/BAN1P/bwckgens.p_proc_term_date';
     var headers = {
@@ -174,9 +184,11 @@ router.post('/test', function(req, res, next) {
                         var collection = db.get('courses');
                         for(var n = 0; n < subjectParsedData.length; n++) {
                             collection.insert({
+                                "cid" : subjectParsedData[n].cid,
                                 "time" : subjectParsedData[n].time,
                                 "dates" : subjectParsedData[n].dates,
                                 "name" : subjectParsedData[n].name,
+                                "crn" : subjectParsedData[n].crn,
                                 "abbrev" : subjectParsedData[n].abbrev,
                                 "sectionNum" : subjectParsedData[n].sectionNum,
                                 "term" : subjectParsedData[n].term

@@ -1,27 +1,39 @@
 <h1>{{ title }}</h1>
-<p>Welcome to {{ title }}</p>
+<p>Welcome to {{ title }}. A courses scheduler for the University of Victoria</p>
 
-<form action="/test" method="POST">
+<!--<form action="/classes/all" method="post">
     <select id="select_term" name="select_term">
-        <option id="spring" name="spring" value="{{spring}}">Spring</option>
-        <option id="fall" name="fall" value="{{fall}}">Fall</option>
-        <option id="winter" name="summer" value="{{summer}}">Summer</option>
+        <option value="{{fall}}">Fall</option>
+        <option value="{{spring}}">Spring</option>
     </select>
-    <button type="submit">CLICK ME</button>
-</form>
+    <input type="submit" value="Create Profile" />
+</form>-->
 
-<div class="row">
-    <div class="col-md-4">
-
-    </div>
-    <div class="col-md-7">
-        <div id='calendar'></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="container-courses">
+                <button class="btn" id="fall" value="{{fall}}" data-attribute="active">Fall 2017</button>
+                <button class="btn" id="spring" value="{{spring}}" data-attribute="inactive">Spring 2018</button>
+                <hr>
+                <div class="ui-widget" id="fall-search">
+                    <input class="input" id="fall-classes" placeholder="Search for a class">
+                    <button class="btn btn-success btn-custom" id="fall-add">Add</button>
+                </div>
+                <div class="ui-widget" id="spring-search">
+                    <input class="input" id="spring-classes" placeholder="Search for a class">
+                    <button class="btn btn-success btn-custom" id="spring-add">Add</button>
+                </div>
+            </div>
+            <hr>
+            <div class="container-courses">
+                <table class="table" id="fall-table"></table>
+                <table class="table" id="spring-table"></table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div><div id='spring-calendar'></div></div>
+            <div><div id='fall-calendar'></div></div>
+        </div>
     </div>
 </div>
-
-{{ userlist }}
-<ul>
-    {{#each userlist}}
-        <li>{{ this.username }}</li>
-    {{/each}}
-</ul>

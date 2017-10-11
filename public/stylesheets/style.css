@@ -1,8 +1,45 @@
 body {
-  padding: 50px;
+  padding: 50px 100px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #add8e6;
 }
 
 a {
   color: #00B7FF;
+}
+
+hr {
+  background-color: #ccc;
+  border-style: solid;
+}
+
+.hidden {
+  display: none;
+}
+
+.container-courses {
+  border: 1px solid #ccc;
+  padding: 15px;
+  background-color: #fff;
+}
+
+.btn-custom {
+  position: absolute;
+  display: inline-block;
+  margin: 10px 0 5px 5px;
+}
+
+.input {
+  margin: 10px 0 5px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  height: 40px;
+  width: 250px;
+  display: inline-block;
+}
+
+.ui-autocomplete {
+  max-height: 300px;
+  overflow: scroll;
 }
