@@ -23,6 +23,14 @@ hr {
   background-color: #fff;
 }
 
+.container-list {
+  border: 1px solid #ccc;
+  padding: 15px;
+  background-color: #fff;
+  max-height: 210px;
+  overflow: scroll;
+}
+
 .btn-custom {
   position: absolute;
   display: inline-block;

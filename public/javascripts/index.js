@@ -22,22 +22,8 @@ $(document).ready(function() {
         locale: 'en',
         allDaySlot: false,
         minTime: '08:00:00',
-        maxTime: '21:00:00',
-        events: [
-            {
-                title  : 'Lawyer',
-                start  : '2017-10-09T11:30:00',
-                end  : '2017-10-09T12:30:00',
-                allDay : false,
-                color: 'orange'
-            },
-            {
-                title  : 'Dentist',
-                start  : '2017-10-09T12:30:00',
-                end  : '2017-10-09T13:30:00',
-                allDay : false
-            }
-        ],
+        maxTime: '23:30:00',
+        events: [],
         eventOverlap: true
     });
 
@@ -51,22 +37,8 @@ $(document).ready(function() {
         locale: 'en',
         allDaySlot: false,
         minTime: '08:00:00',
-        maxTime: '21:00:00',
-        events: [
-            {
-                title  : 'Lawyer',
-                start  : '2017-10-09T11:30:00',
-                end  : '2017-10-09T12:30:00',
-                allDay : false,
-                color: 'orange'
-            },
-            {
-                title  : 'Lawyer',
-                start  : '2017-10-09T12:30:00',
-                end  : '2017-10-09T13:30:00',
-                allDay : false
-            }
-        ],
+        maxTime: '23:30:00',
+        events: [],
         eventOverlap: true
     });
 
@@ -101,6 +73,24 @@ $(document).ready(function() {
     });
 });
 
+var parseTime = function( time ) {
+    var period = time.substring(time.length-2, time.length);
+    time = time.substring(0, time.length-2);
+    var h = time.split(':')[0];
+    var m = time.split(':')[1];
+    if(period === 'am') {
+        return time;
+    }
+    else if(h === '12') {
+        return time;
+    }
+    else {
+        h = parseInt(h) + 12;
+        time = h.toString() + ":" + m;
+        return time;
+    }
+};
+
 var uniqueList = function( data, subjectList ) {
     var abbrev = data.abbrev;
     if( !subjectList.includes(abbrev) ) {
@@ -109,14 +99,38 @@ var uniqueList = function( data, subjectList ) {
 };
 
 var createEvent = function ( data, cal ) {
-    var event={
-        title  : 'Lawyer',
-        start  : '2017-10-09T12:30:00',
-        end  : '2017-10-09T13:30:00',
-        allDay : false
-    };
+    var dayofweek;
+    for( var i = 0; i < data.dates.length; i++ ) {
+        var event={};
+        var day = data.dates[i];
+        event.title = data.abbrev;
+        event.allDay = 'false';
+        if( day === 'M') {
+            dayofweek = '2017-10-09';
+        }
+        else if( day === 'T') {
+            dayofweek = '2017-10-10';
+        }
+        else if( day === 'W') {
+            dayofweek = '2017-10-11';
+        }
+        else if( day === 'R') {
+            dayofweek = '2017-10-12';
+        }
+        else {
+            dayofweek = '2017-10-13';
+        }
+        var timeTrimmed = data.time.replace(/ /g,'');
+        var startTime = timeTrimmed.split('-')[0];
+        startTime = parseTime(startTime);
+        var endTime = timeTrimmed.split('-')[1];
+        endTime = parseTime(endTime);
 
-    cal.fullCalendar( 'renderEvent', event, true);
+        event.start = dayofweek + 'T' + startTime;
+        event.end = dayofweek + 'T' + endTime;
+
+        cal.fullCalendar( 'renderEvent', event, true);
+    }
 };
 
 var createRow = function( data, table ) {
