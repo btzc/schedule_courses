@@ -73,6 +73,15 @@ $(document).ready(function() {
     });
 });
 
+var getRandomColor = function() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+};
+
 var parseTime = function( time ) {
     var period = time.substring(time.length-2, time.length);
     time = time.substring(0, time.length-2);
@@ -100,10 +109,11 @@ var uniqueList = function( data, subjectList ) {
 
 var createEvent = function ( data, cal ) {
     var dayofweek;
+    var color = getRandomColor();
     for( var i = 0; i < data.dates.length; i++ ) {
         var event={};
         var day = data.dates[i];
-        event.title = data.abbrev;
+        event.title = data.abbrev + " " + data.sectionNum;
         event.allDay = 'false';
         if( day === 'M') {
             dayofweek = '2017-10-09';
@@ -128,6 +138,7 @@ var createEvent = function ( data, cal ) {
 
         event.start = dayofweek + 'T' + startTime;
         event.end = dayofweek + 'T' + endTime;
+        event.color = color;
 
         cal.fullCalendar( 'renderEvent', event, true);
     }
